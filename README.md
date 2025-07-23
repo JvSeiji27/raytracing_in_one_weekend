@@ -32,7 +32,7 @@ convert image.ppm imagem.png  # Requer ImageMagick
 🖼️ Resultado
 
 Aqui está o resultado da renderização:
-<img width="1200" height="675" alt="imagem" src="https://github.com/user-attachments/assets/a028cca7-c027-4798-b403-fba8778943a8" />
+[<img width="1200" height="675" alt="imagem" src="https://github.com/user-attachments/assets/a028cca7-c027-4798-b403-fba8778943a8" />](https://github.com/JvSeiji27/raytracing_in_one_weekend/issues/1#issue-3257078932)
 
 OBS: Câmera estratégica e cena melhorada!
 

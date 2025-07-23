@@ -32,7 +32,10 @@ convert image.ppm imagem.png  # Requer ImageMagick
 🖼️ Resultado
 
 Aqui está o resultado da renderização:
-![Renderização da Torre Estelar](/home/joao-vitor/Documentos/Projeto02_PG_RayTracing/raytracing_in_one_weekend/src/InOneWeekend
+<img width="1200" height="675" alt="imagem" src="https://github.com/user-attachments/assets/a028cca7-c027-4798-b403-fba8778943a8" />
+
+OBS: Câmera estratégica e cena melhorada!
+
 
 👨‍💻 Autores
 

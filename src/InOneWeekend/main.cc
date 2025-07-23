@@ -21,100 +21,93 @@
 using std::make_shared;
 
 int main() {
-
     hittable_list world;
 
-    // Terreno escuro e levemente variado, azul
+    // Terreno escuro e levemente variado
     auto ground_material = make_shared<lambertian>(color(0.05, 0.05, 0.1));
     world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, ground_material));
-    
-    //Esfera Central Metálica inserida
+
+    // Centro da estrela (energia cósmica)
     auto center_material = make_shared<metal>(color(1.0, 1.0, 1.0), 0.0);
     world.add(make_shared<sphere>(point3(0, 0.6, 0), 0.6, center_material));
-    
-    //Adicionando a camada externa, 5 esferas elementares
-    int layer1_count = 5;
-    double layer1_radius = 1.8;
-    double height1 = 1.2;
 
-    for (int i = 0; i < layer1_count; ++i) {
-        double angle = 2 * pi * i / layer1_count;
-        double x = layer1_radius * cos(angle);
-        double z = layer1_radius * sin(angle);
+    // Parâmetros de espaçamento e altura (ajustados para harmonia)
+    double base_radius = 3.5;      // Raio da camada externa
+    double base_height = 0.4;      // Altura camada externa
+    double base_r = 0.8;           // Raio das esferas externas
+
+    // --- Camada externa (5 pontas da estrela) ---
+    for (int i = 0; i < 5; ++i) {
+        double angle = i * 2.0 * M_PI / 5.0;
+        double x = base_radius * cos(angle);
+        double z = base_radius * sin(angle);
 
         shared_ptr<material> mat;
+        switch(i) {
+            case 0: mat = make_shared<metal>(color(0.9, 0.3, 0.1), 0.1); break;  // fogo
+            case 1: mat = make_shared<dielectric>(1.33); break;                   // água
+            case 2: mat = make_shared<lambertian>(color(0.2, 0.5, 0.2)); break;   // terra
+            case 3: mat = make_shared<metal>(color(0.8, 0.8, 0.9), 0.15); break;  // ar
+            case 4: mat = make_shared<metal>(color(1.0, 0.85, 0.3), 0.0); break;  // éter
+        }
 
-        if (i == 0)
-            mat = make_shared<lambertian>(color(0.9, 0.1, 0.1));  // fogo
-        else if (i == 1)
-            mat = make_shared<lambertian>(color(0.1, 0.1, 0.9));  // água
-        else if (i == 2)
-            mat = make_shared<lambertian>(color(0.4, 0.2, 0.1));  // terra
-        else if (i == 3)
-            mat = make_shared<lambertian>(color(0.6, 0.6, 0.6));  // ar
-        else
-            mat = make_shared<lambertian>(color(0.7, 0.7, 0.9));  // éter
-
-        world.add(make_shared<sphere>(point3(x, height1, z), 0.4, mat));
+        world.add(make_shared<sphere>(point3(x, base_height, z), base_r, mat));
     }
-      //adicionando camada intermediária, 10 esferas menores
-      int layer2_count = 10;
-      double layer2_radius = 1.2;
-      double height2 = 0.8;
 
-      for (int i = 0; i < layer2_count; ++i) {
-          double angle = 2 * pi * i / layer2_count;
-          double x = layer2_radius * cos(angle);
-          double z = layer2_radius * sin(angle);
+    // --- Camada intermediária (10 esferas menores entre as pontas) ---
+    double mid_radius = base_radius * 0.55;    // Raio um pouco menor que a externa
+    double mid_r = base_r * 0.5;               // Esferas menores
+    double mid_height = base_height + 0.6;     // Altura maior para formar "torre"
 
-          shared_ptr<material> mat;
-          if (i % 3 == 0)
-              mat = make_shared<metal>(color(0.8, 0.8, 0.9), 0.1);
-          else if (i % 3 == 1)
-              mat = make_shared<dielectric>(1.5);
-          else
-              mat = make_shared<lambertian>(color(0.3, 0.7, 0.3));
+    for (int i = 0; i < 10; ++i) {
+        double angle = i * 2.0 * M_PI / 10.0;
+        double x = mid_radius * cos(angle);
+        double z = mid_radius * sin(angle);
 
-          world.add(make_shared<sphere>(point3(x, height2, z), 0.25, mat));
-}
+        shared_ptr<material> mat;
+        if (i % 3 == 0)
+            mat = make_shared<lambertian>(color(0.7, 0.2, 0.2));
+        else if (i % 3 == 1)
+            mat = make_shared<metal>(color(0.7, 0.7, 0.7), 0.3);
+        else
+            mat = make_shared<dielectric>(1.2);
 
-      //adicionando a camada mais interna, 6 esferas menores em forma circular (disposição)
-      int layer3_count = 6;
-      double layer3_radius = 0.5;
-      double height3 = 0.4;
+        world.add(make_shared<sphere>(point3(x, mid_height, z), mid_r, mat));
+    }
 
-      for (int i = 0; i < layer3_count; ++i) {
-          double angle = 2 * pi * i / layer3_count;
-          double x = layer3_radius * cos(angle);
-          double z = layer3_radius * sin(angle);
+    // --- Camada interna (círculo central com pequenas esferas) ---
+    double inner_radius = base_radius * 0.3;  // Raio menor ainda
+    double inner_r = base_r * 0.3;             // Esferas bem pequenas
+    double inner_height = mid_height + 0.7;    // Altura mais alta para formar a ponta da "torre"
 
-          shared_ptr<material> mat;
-          if (i % 2 == 0)
-              mat = make_shared<metal>(color(0.9, 0.7, 0.2), 0.0);  // dourado
-          else
-              mat = make_shared<lambertian>(color(0.2, 0.2, 0.5));  // escuro
+    for (int i = 0; i < 6; ++i) {
+        double angle = i * 2.0 * M_PI / 6.0;
+        double x = inner_radius * cos(angle);
+        double z = inner_radius * sin(angle);
 
-          world.add(make_shared<sphere>(point3(x, height3, z), 0.15, mat));
-} 
+        shared_ptr<material> mat;
+        if (i % 2 == 0)
+            mat = make_shared<metal>(color(0.9, 0.9, 0.4), 0.0);
+        else
+            mat = make_shared<lambertian>(color(0.1, 0.3, 0.1));
 
+        world.add(make_shared<sphere>(point3(x, inner_height, z), inner_r, mat));
+    }
 
-       // Câmera ajustada para enquadrar a torre
-        camera cam;
-        cam.aspect_ratio      = 16.0 / 9.0;
-        cam.image_width       = 1200;
-        cam.samples_per_pixel = 300;
-        cam.max_depth         = 50;
+    // Câmera ajustada para enquadrar a torre
+    camera cam;
+    cam.aspect_ratio      = 16.0 / 9.0;
+    cam.image_width       = 1200;
+    cam.samples_per_pixel = 300;
+    cam.max_depth         = 50;
 
-        cam.vfov     = 40;
-        cam.lookfrom = point3(0, 8, 18);
-        cam.lookat   = point3(0, 2, 0);
-        cam.vup      = vec3(0, 1, 0);
+    cam.vfov     = 40;
+    cam.lookfrom = point3(0, 8, 18);
+    cam.lookat   = point3(0, 2, 0);
+    cam.vup      = vec3(0, 1, 0);
 
-        cam.defocus_angle = 0.1;
-        cam.focus_dist    = (cam.lookfrom - cam.lookat).length();
+    cam.defocus_angle = 0.1;
+    cam.focus_dist    = (cam.lookfrom - cam.lookat).length();
 
-        cam.render(world);
-
-
-   
+    cam.render(world);
 }

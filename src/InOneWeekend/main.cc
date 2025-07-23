@@ -78,6 +78,26 @@ int main() {
           world.add(make_shared<sphere>(point3(x, height2, z), 0.25, mat));
 }
 
+      //adicionando a camada mais interna, 6 esferas menores em forma circular (disposição)
+      int layer3_count = 6;
+      double layer3_radius = 0.5;
+      double height3 = 0.4;
+
+      for (int i = 0; i < layer3_count; ++i) {
+          double angle = 2 * pi * i / layer3_count;
+          double x = layer3_radius * cos(angle);
+          double z = layer3_radius * sin(angle);
+
+          shared_ptr<material> mat;
+          if (i % 2 == 0)
+              mat = make_shared<metal>(color(0.9, 0.7, 0.2), 0.0);  // dourado
+          else
+              mat = make_shared<lambertian>(color(0.2, 0.2, 0.5));  // escuro
+
+          world.add(make_shared<sphere>(point3(x, height3, z), 0.15, mat));
+}
+
+
 
 
    

@@ -24,9 +24,16 @@ int main() {
 
     hittable_list world;
 
-    // Terreno escuro e levemente variado
+    // Terreno escuro e levemente variado, azul
     auto ground_material = make_shared<lambertian>(color(0.05, 0.05, 0.1));
     world.add(make_shared<sphere>(point3(0, -1000, 0), 1000, ground_material));
+    
+    //Esfera Central Metálica inserida
+    auto center_material = make_shared<metal>(color(1.0, 1.0, 1.0), 0.0);
+    world.add(make_shared<sphere>(point3(0, 0.6, 0), 0.6, center_material));
+    
+    
+
 
    
 }

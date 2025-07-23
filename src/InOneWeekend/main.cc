@@ -57,6 +57,26 @@ int main() {
 
         world.add(make_shared<sphere>(point3(x, height1, z), 0.4, mat));
     }
+      //adicionando camada intermediária, 10 esferas menores
+      int layer2_count = 10;
+      double layer2_radius = 1.2;
+      double height2 = 0.8;
+
+      for (int i = 0; i < layer2_count; ++i) {
+          double angle = 2 * pi * i / layer2_count;
+          double x = layer2_radius * cos(angle);
+          double z = layer2_radius * sin(angle);
+
+          shared_ptr<material> mat;
+          if (i % 3 == 0)
+              mat = make_shared<metal>(color(0.8, 0.8, 0.9), 0.1);
+          else if (i % 3 == 1)
+              mat = make_shared<dielectric>(1.5);
+          else
+              mat = make_shared<lambertian>(color(0.3, 0.7, 0.3));
+
+          world.add(make_shared<sphere>(point3(x, height2, z), 0.25, mat));
+}
 
 
 

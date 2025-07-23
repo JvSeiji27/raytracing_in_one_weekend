@@ -32,7 +32,32 @@ int main() {
     auto center_material = make_shared<metal>(color(1.0, 1.0, 1.0), 0.0);
     world.add(make_shared<sphere>(point3(0, 0.6, 0), 0.6, center_material));
     
-    
+    //Adicionando a camada externa, 5 esferas elementares
+    int layer1_count = 5;
+    double layer1_radius = 1.8;
+    double height1 = 1.2;
+
+    for (int i = 0; i < layer1_count; ++i) {
+        double angle = 2 * pi * i / layer1_count;
+        double x = layer1_radius * cos(angle);
+        double z = layer1_radius * sin(angle);
+
+        shared_ptr<material> mat;
+
+        if (i == 0)
+            mat = make_shared<lambertian>(color(0.9, 0.1, 0.1));  // fogo
+        else if (i == 1)
+            mat = make_shared<lambertian>(color(0.1, 0.1, 0.9));  // água
+        else if (i == 2)
+            mat = make_shared<lambertian>(color(0.4, 0.2, 0.1));  // terra
+        else if (i == 3)
+            mat = make_shared<lambertian>(color(0.6, 0.6, 0.6));  // ar
+        else
+            mat = make_shared<lambertian>(color(0.7, 0.7, 0.9));  // éter
+
+        world.add(make_shared<sphere>(point3(x, height1, z), 0.4, mat));
+    }
+
 
 
    

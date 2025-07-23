@@ -95,9 +95,25 @@ int main() {
               mat = make_shared<lambertian>(color(0.2, 0.2, 0.5));  // escuro
 
           world.add(make_shared<sphere>(point3(x, height3, z), 0.15, mat));
-}
+} 
 
 
+       // Câmera ajustada para enquadrar a torre
+        camera cam;
+        cam.aspect_ratio      = 16.0 / 9.0;
+        cam.image_width       = 1200;
+        cam.samples_per_pixel = 300;
+        cam.max_depth         = 50;
+
+        cam.vfov     = 40;
+        cam.lookfrom = point3(0, 8, 18);
+        cam.lookat   = point3(0, 2, 0);
+        cam.vup      = vec3(0, 1, 0);
+
+        cam.defocus_angle = 0.1;
+        cam.focus_dist    = (cam.lookfrom - cam.lookat).length();
+
+        cam.render(world);
 
 
    

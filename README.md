@@ -20,13 +20,13 @@ Para compilar o projeto com `g++`:
 
 ```bash
 g++ -std=c++17 -o raytracer src/InOneWeekend/*.cc
-
+```
 Depois, execute com:
-
+```bash
 ./raytracer ou ./program
-
+```
 A imagem renderizada será salva automaticamente (dependendo da implementação da função render) como image.ppm. Você pode converter esse arquivo para PNG com:
-
+```bash
 convert image.ppm imagem.png  # Requer ImageMagick,
 ```
 🖼️ Resultado

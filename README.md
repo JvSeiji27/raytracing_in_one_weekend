@@ -27,15 +27,14 @@ Depois, execute com:
 
 A imagem renderizada será salva automaticamente (dependendo da implementação da função render) como image.ppm. Você pode converter esse arquivo para PNG com:
 
-convert image.ppm imagem.png  # Requer ImageMagick
-
+convert image.ppm imagem.png  # Requer ImageMagick,
+```
 🖼️ Resultado
 
 Aqui está o resultado da renderização:
 ![image alt](https://github.com/JvSeiji27/raytracing_in_one_weekend/blob/release/imagem.png?raw=true)
 
 OBS: Câmera estratégica e cena melhorada!
-
 
 👨‍💻 Autores
 
